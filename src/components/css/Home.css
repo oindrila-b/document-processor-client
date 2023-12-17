@@ -1,0 +1,51 @@
+.title {
+    font-size: 5em;
+    background: -webkit-linear-gradient(rgb(255, 255, 255),rgb(225, 212, 236));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+.container span{
+    font-size: 3rem;
+    color: white;
+    font-weight: 600;
+    text-shadow: 2px 2px #8bc7f0;
+  }
+  
+
+  .buttons{
+    padding-top: 50px;
+    display: flex;
+    position: relative;
+    justify-content: center;
+  }
+  
+  button {
+    position: absolute;
+     margin: 10px;
+     padding: 20px 45px;
+     text-align: center;
+     text-transform: uppercase;
+     transition: 0.5s;
+     background-size: 200% auto;
+     color: white;            
+     box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.5);
+     border-radius: 30px;
+     display: block;
+     border: none;
+     outline: hidden;
+     cursor: pointer;
+     font-weight: 800;
+   }
+  
+   .btn-pink {
+    background-image: linear-gradient(to right, #7844f0 0%, #5d1aa8  51%, #9719c9  100%)}
+  
+   .btn-pink:hover {
+     background-position: right center; /* change the direction of the change here */
+     color: #fff;
+     text-decoration: none;
+   }
+  
