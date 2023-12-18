@@ -21,6 +21,11 @@ export const NavbarComponent = () => {
       <span></span>
     </div>
     <ul className={menuOpen ? "open" : ""}>
+    <li>
+        <NavLink to={"/services"}>
+          Services
+        </NavLink>
+      </li>
       <li>
         <NavLink to={"/about"}>
           About The Project

@@ -1,5 +1,6 @@
 import { TypeAnimation } from 'react-type-animation';
 import '../components/css/Home.css'
+import { Link } from 'react-router-dom';
 export const Home = () => {
 
     return(
@@ -21,9 +22,11 @@ export const Home = () => {
                 repeat={Infinity}
             />
         </div>
+        <Link to={"/services"}>
         <div className="buttons">
         <button className="btn-pink">Explore Documento</button>
         </div>
+        </Link>
         </div>
     )
 }

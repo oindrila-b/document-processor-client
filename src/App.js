@@ -4,6 +4,7 @@ import {NavbarComponent} from "./components/NavbarComponent.jsx";
 import { Home } from "./components/Home.jsx";
 import { AboutTheProject } from "./components/AboutTheProject.jsx";
 import { TechStackUsed } from "./components/TechStackUsed.jsx";
+import { Services } from "./components/Services.jsx";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <NavbarComponent/>
         <Routes>
           <Route path="/" element={<Home/>}/>
+          <Route path="/services" element={<Services/>}/>
           <Route path="/about" element={<AboutTheProject/>}/>
           <Route path="/tech" element={<TechStackUsed/>}/>
         </Routes>
