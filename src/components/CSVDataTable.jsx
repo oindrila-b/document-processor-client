@@ -6,7 +6,7 @@ const CSVDataTable = ({ data }) => {
   return (
     <>
       {data.length === 0 ? (
-        <p>No data available.</p>
+        <p>Load Data</p>
       ) : (
         <table style={tableStyle}>
           <thead>
@@ -36,11 +36,24 @@ const CSVDataTable = ({ data }) => {
 };
 
 const tableStyle = {
+  // borderCollapse: "collapse",
+  // width: "70%",
+  // maxHeight: '800px',
+  // outerHeight: "50%",
+  // borderRadius: "20px",
+  // padding:"10px",
+  // margin: "20em",
+  // overflowY: "auto",
+  // boxShadow: "40px 90px 55px -20px rgba(155, 184, 243, 0.2)",
   borderCollapse: "collapse",
-  width: "100%",
-  borderRadius: "10px",
-  overflow: "hidden",
-  boxShadow: "40px 90px 55px -20px rgba(155, 184, 243, 0.2)",
+  maxHeight: "500px",
+  width: "70%",
+  padding: "10px",
+  margin: "20em",
+  // background: "linear-gradient(90deg, #bf5eff,#820fcf, #511ae7 )",
+  overflowY: "scroll",
+  display: "block",
+  boxShadow: "40px 90px 55px -20px rgba(155, 184, 243, 0.2)"
 };
 
 const tableHeaderStyle = {
@@ -50,7 +63,11 @@ const tableHeaderStyle = {
   backgroundColor: "#6D95E0",
   borderBottom: "1px solid #ddd",
   padding: "15px",
-  textAlign: "left",
+  textAlign: "center",
+  position : "sticky",
+  overflow: "hidden",
+  top : "0",
+
 };
 
 const tableCellStyle = {
