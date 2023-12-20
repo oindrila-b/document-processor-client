@@ -1,22 +1,38 @@
 import './css/Services.css';
 import React, { useState } from "react";
+import { useRef } from 'react';
 import CSVDataTable from '../components/CSVDataTable.jsx';
 import Papa from 'papaparse';
 import { Button } from '@chakra-ui/react';
-
+import { SummaryCard } from './SummaryCard.jsx';
+import { QAContainer } from './QAContainer.jsx';
 
 export const Services = () => {
 
+  const hiddenFileInput = useRef(null);
   const [csvData, setCsvData] = useState([]);
-  const [showButton, setShowButton] = useState(true);
+  const [showLoadSampleDataButton, setShowLoadSampleDataButton] = useState(true);
   const [showTable, setShowTable] = useState(true);
+  const [getSummary, setGetSummary] = useState(false);
+  const [getQA, setGetQA] = useState(false);
 
   const toggleButton = () => {
-    setShowButton(!showButton);
+    setShowLoadSampleDataButton(!showLoadSampleDataButton);
+       
   };
 
   const handleGetSummary = () => {
-    setShowTable(!showTable);
+    setShowTable(false);
+    setGetSummary(true);
+    setGetQA(false);
+  };
+
+
+  const handleQA = () => {
+    setShowTable(false);
+    setGetSummary(false);
+    setGetQA(true);
+
   };
 
   const handleFileChange = async () => {
@@ -25,6 +41,15 @@ export const Services = () => {
     toggleButton();
     return data;
 
+  };
+
+  const handleChange = (event) => {
+    const fileUploaded = event.target.files[0];
+    console.log(fileUploaded);
+  };
+
+  const handleClick = (event) => {
+    hiddenFileInput.current.click();
   };
 
   const fetchCSV = async () => {
@@ -65,29 +90,38 @@ export const Services = () => {
         Services
       </h1>
       <h2 className="subtitle">
-       Explore Services on Sample Data
+        Explore Services on Sample Data
       </h2>
       <div className="container">
         <div className="buttons">
-          {showButton && <button className="btn-pink" onClick={handleFileChange}>Load Sample Data</button>}
+          {showLoadSampleDataButton && <button className="btn-pink" onClick={handleFileChange}>Load Sample Data</button>}
         </div>
         <div>
-          { !showButton && showTable && <Button className="btn-pink" onClick={handleGetSummary}> Get Summary </Button>}
-          { !showButton &&  <Button className="btn-pink"> Ask Questions </Button>}
+          {!showLoadSampleDataButton && <Button className="btn-pink" onClick={handleGetSummary}> Get Summary </Button>}
+          {!showLoadSampleDataButton && <Button className="btn-pink" onClick={handleQA}> Ask Questions </Button>}
         </div>
         <div>
-         { showTable && <CSVDataTable data={csvData} />}
-        </div>  
-
+          {showTable && <CSVDataTable data={csvData} />}
+        </div>
         <div>
-          <h1 className='subtitle'> 
-           OR 
+          {getSummary && <SummaryCard/>}
+        </div>
+        <div>
+          {getQA && <QAContainer/>}
+        </div>
+        <div style={{marginTop: "12em"}}>
+          <h1 className='subtitle'>
+            OR
           </h1>
         </div>
         <div>
-          <h1 className='subtitle'> 
+          <h1 className='subtitle'>
             Test With Your own Documents
           </h1>
+          <div>
+            <Button className="btn-pink" onClick={handleClick}  > Upload Your File </Button>
+            <input type='file' accept='application/pdf' onChange={handleChange} ref={hiddenFileInput} style={{ 'display': 'none' }} />
+          </div>
         </div>
       </div>
     </div>

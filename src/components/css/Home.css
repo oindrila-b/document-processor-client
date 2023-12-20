@@ -16,7 +16,7 @@
   
 
   .buttons{
-    padding-top: 50px;
+    padding-top: 30px;
     display: flex;
     position: relative;
     justify-content: center;
@@ -24,7 +24,7 @@
   
   button {
     position: absolute;
-     margin: 15px;
+     margin: 5em;
      padding: 20px 45px;
      text-align: center;
      text-transform: uppercase;
@@ -41,7 +41,9 @@
    }
   
    .btn-pink {
-    background-image: linear-gradient(to right, #7844f0 0%, #5d1aa8  51%, #9719c9  100%)}
+    background-image: linear-gradient(to right, #7844f0 0%, #5d1aa8  51%, #9719c9  100%);
+    
+  }
   
    .btn-pink:hover {
      background-position: right center; /* change the direction of the change here */

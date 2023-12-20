@@ -6,7 +6,7 @@ const CSVDataTable = ({ data }) => {
   return (
     <>
       {data.length === 0 ? (
-        <p>Load Data</p>
+        <p></p>
       ) : (
         <table style={tableStyle}>
           <thead>
