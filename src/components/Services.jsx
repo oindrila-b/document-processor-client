@@ -2,16 +2,27 @@ import './css/Services.css';
 import React, { useState } from "react";
 import CSVDataTable from '../components/CSVDataTable.jsx';
 import Papa from 'papaparse';
+import { Button } from '@chakra-ui/react';
 
 
 export const Services = () => {
 
   const [csvData, setCsvData] = useState([]);
+  const [showButton, setShowButton] = useState(true);
+  const [showTable, setShowTable] = useState(true);
+
+  const toggleButton = () => {
+    setShowButton(!showButton);
+  };
+
+  const handleGetSummary = () => {
+    setShowTable(!showTable);
+  };
 
   const handleFileChange = async () => {
     const data = Papa.parse(await fetchCSV());
     console.log(data);
-    // parseCSV(data);
+    toggleButton();
     return data;
 
   };
@@ -54,21 +65,29 @@ export const Services = () => {
         Services
       </h1>
       <h2 className="subtitle">
-        Service Sample
+       Explore Services on Sample Data
       </h2>
-      <div className='container'>
+      <div className="container">
         <div className="buttons">
-          <button className="btn-pink" onClick={handleFileChange}>Load Sample Data</button>
-        </div>
-        <br /> <br /> <br />
-        <div>
-          <CSVDataTable data={csvData} />
+          {showButton && <button className="btn-pink" onClick={handleFileChange}>Load Sample Data</button>}
         </div>
         <div>
-        <button className="btn-pink" onClick={handleFileChange}>Load Sample Data</button>
+          { !showButton && showTable && <Button className="btn-pink" onClick={handleGetSummary}> Get Summary </Button>}
+          { !showButton &&  <Button className="btn-pink"> Ask Questions </Button>}
         </div>
         <div>
-        <button className="btn-pink" onClick={handleFileChange}>Load Sample Data</button>
+         { showTable && <CSVDataTable data={csvData} />}
+        </div>  
+
+        <div>
+          <h1 className='subtitle'> 
+           OR 
+          </h1>
+        </div>
+        <div>
+          <h1 className='subtitle'> 
+            Test With Your own Documents
+          </h1>
         </div>
       </div>
     </div>
