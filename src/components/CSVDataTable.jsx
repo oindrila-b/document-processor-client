@@ -50,7 +50,7 @@ const tableStyle = {
   maxHeight: "500px",
   width: "70%",
   padding: "10px",
-  margin: "10em 20em 10em 20em",
+  margin: "5em 20em 5em 20em",
   // background: "linear-gradient(90deg, #bf5eff,#820fcf, #511ae7 )",
   overflowY: "scroll",
   display: "block",

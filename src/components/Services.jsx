@@ -15,10 +15,11 @@ export const Services = () => {
   const [showTable, setShowTable] = useState(true);
   const [getSummary, setGetSummary] = useState(false);
   const [getQA, setGetQA] = useState(false);
+  const [uploadedDocument, setUploadedDocument] = useState(false);
 
   const toggleButton = () => {
     setShowLoadSampleDataButton(!showLoadSampleDataButton);
-       
+
   };
 
   const handleGetSummary = () => {
@@ -26,6 +27,7 @@ export const Services = () => {
     setGetSummary(true);
     setGetQA(false);
   };
+
 
 
   const handleQA = () => {
@@ -44,12 +46,16 @@ export const Services = () => {
   };
 
   const handleChange = (event) => {
-    const fileUploaded = event.target.files[0];
-    console.log(fileUploaded);
+    const files = Array.from(event.target.files)
+    console.log("files:", files)
   };
 
   const handleClick = (event) => {
     hiddenFileInput.current.click();
+    setUploadedDocument(true)
+    setGetQA(false);
+    setGetSummary(false);
+
   };
 
   const fetchCSV = async () => {
@@ -62,6 +68,8 @@ export const Services = () => {
     parseCSV(csv);
     return csv;
   }
+
+  
 
   const parseCSV = (csvText) => {
     const lines = csvText.split("\n");
@@ -90,38 +98,64 @@ export const Services = () => {
         Services
       </h1>
       <h2 className="subtitle">
-        Explore Services on Sample Data
+        Explore Services
       </h2>
       <div className="container">
-        <div className="buttons">
-          {showLoadSampleDataButton && <button className="btn-pink" onClick={handleFileChange}>Load Sample Data</button>}
-        </div>
         <div>
-          {!showLoadSampleDataButton && <Button className="btn-pink" onClick={handleGetSummary}> Get Summary </Button>}
-          {!showLoadSampleDataButton && <Button className="btn-pink" onClick={handleQA}> Ask Questions </Button>}
-        </div>
-        <div>
-          {showTable && <CSVDataTable data={csvData} />}
-        </div>
-        <div>
-          {getSummary && <SummaryCard/>}
-        </div>
-        <div>
-          {getQA && <QAContainer/>}
-        </div>
-        <div style={{marginTop: "12em"}}>
-          <h1 className='subtitle'>
-            OR
-          </h1>
-        </div>
-        <div>
-          <h1 className='subtitle'>
-            Test With Your own Documents
-          </h1>
+          {!uploadedDocument && <div>
+            <div className="buttons">
+              {showLoadSampleDataButton && <button className="btn-pink" onClick={handleFileChange}>Load Sample Data</button>}
+            </div>
+            <div>
+              {!showLoadSampleDataButton && <Button className="btn-pink" onClick={handleGetSummary}> Get Summary </Button>}
+              {!showLoadSampleDataButton && <Button className="btn-pink" onClick={handleQA}> Ask Questions </Button>}
+            </div>
+            <div>
+              {showTable && <CSVDataTable data={csvData} />}
+            </div>
+            <div>
+              {getSummary && <SummaryCard title={"Summary"} content={"WHO DIS"} />}
+            </div>
+            <div>
+              {getQA && <QAContainer />}
+            </div>
+
+            <div style={{ margin: "10em" }}>
+              <h1 className='subtitle'>
+                OR
+              </h1>
+            </div>
+          </div>}
           <div>
-            <Button className="btn-pink" onClick={handleClick}  > Upload Your File </Button>
-            <input type='file' accept='application/pdf' onChange={handleChange} ref={hiddenFileInput} style={{ 'display': 'none' }} />
+            <h1 className='subtitle'>
+              Test With Your own Documents
+            </h1>
+            <div>
+              <Button className="btn-pink" onClick={handleClick}  > Upload Your File </Button>
+              <input type='file' accept='application/pdf' multiple onChange={handleChange} ref={hiddenFileInput} style={{ 'display': 'none' }} />
+            </div>
           </div>
+        </div>
+        <div style={{ margin: "6em" }}>
+          {uploadedDocument &&
+            <div>
+              <div>
+                <SummaryCard title={"Context"} content={""} />
+              </div>
+              <div>
+              <div>
+              {uploadedDocument && <Button className="btn-pink" onClick={handleGetSummary}> Get Summary </Button>}
+              {uploadedDocument && <Button className="btn-pink" onClick={handleQA}> Ask Questions </Button>}
+            </div>
+              </div>
+              <div>
+              {getSummary && <SummaryCard title={"Summary"} content={"WHO DIS"} />}
+            </div>
+            <div>
+              {getQA && <QAContainer />}
+            </div>
+            </div>
+          }
         </div>
       </div>
     </div>

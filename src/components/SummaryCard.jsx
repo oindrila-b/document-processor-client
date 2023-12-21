@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 import { Grid } from '@mui/material';
 
-export const SummaryCard = () => {
+export const SummaryCard = ({context, title,content}) => {
     return (
         <div>
             <Grid
@@ -17,14 +17,14 @@ export const SummaryCard = () => {
             style={{ minHeight: '10vh' }}
             overflow="auto"
           >
-            <Grid item xs={3}>
+            <Grid item xs={3} style={{margin: "3em"}}>
               <Card sx={{ minWidth: 500, maxWidth: 1000, borderRadius: '10px' }}>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div" sx={{ background: 'grey', borderRadius: '10px' }}>
-                    Summary
+                    {title}
                   </Typography>
                   <Typography sx={{ fontSize: 16 }} color="text.primary" gutterBottom>
-                    word of the day
+                    {content}
                   </Typography>
                 </CardContent>
               </Card>
