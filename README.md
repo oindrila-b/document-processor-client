@@ -1,70 +1,49 @@
-# Getting Started with Create React App
+# Documento [Client Side]
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## What is Documento?
 
-## Available Scripts
+Documento is a Fullstack application built using React JS and Python. 
+This repository contains the the UI, i.e, the Client Side of the application. Documento allows the user to make a summary out of their document or get answer to questions regarding their document. Documento uses two NLP models to process the Document.
+    
 
-In the project directory, you can run:
+## 
 
-### `npm start`
+### Repositories :
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Frontend - [document-processor-client](https://github.com/oindrila-b/document-processor-client)
+2. Backend - [document-processor](https://github.com/oindrila-b/document_processor)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Key Functionalities of the UI
+ The CLient side has the following Key Functionalities :
+ 1. Getting Summary For The Sample Document.
+ 2. Asking Questions About The Sample Document.
+ 3. Uploading Their Own Document.
+ 4. Getting Summary For Their Uploaded Document.
+ 5. Asking Questions About Their Uploaded Document.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### API Endpoints
 
-### `npm run build`
+The Client Side application runs on the address :
+    `http://localhost:3000`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+It uses the following API Endpoints :
+1. `http://localhost:5000/getSummary` as the endpoint to get the summary for the sample data or the uploaded document. The endpoint is a `GET` call and has the parameter `context`, which represents the context regarding which the summary is to be made using the backend server. 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. `http://localhost:5000/askQuestion` as the endpoint to get the answer to the question for the sample data or the uploaded document. The endpoint is a `GET` call and has the following parameters `context`, and `question`, which represents the context and question regarding the context which needs to be answered by the backend server.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Key Challenges Faced 
+ The key challenges faced while building the front-end application was , 
 
-### `npm run eject`
+  1. Parsing the csv file to get the text for the backend server to process. 
+  2. Initially I wanted to allow uploading pdfs and parsing them, but it was not possible because of the contraints like knowing how the pdf was made, what the pdf contents are [images/links]. Since this was quite challenging I decided to let only the acceptance of doc/docx/text files.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Improvements for the Frontend
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+There are the following improvements I would have made :
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Addigng more animation to the frontend.
+2. Adding animated indicators for loading data.
+3. Adding an improved user experience regarding pages, navigation and interactions.
+4. Overall a better design and implementation would be much better.

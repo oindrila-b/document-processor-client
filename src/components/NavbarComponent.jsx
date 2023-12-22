@@ -31,11 +31,7 @@ export const NavbarComponent = () => {
           About The Project
         </NavLink>
       </li>
-      <li>
-        <NavLink to={"/tech"}>
-          Tech Stack
-        </NavLink>
-      </li>
+      
     </ul>
   </nav>
   );
