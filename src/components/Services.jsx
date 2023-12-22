@@ -9,6 +9,7 @@ import { QAContainer } from './QAContainer.jsx';
 
 export const Services = () => {
 
+
   const hiddenFileInput = useRef(null);
   const [csvData, setCsvData] = useState([]);
   const [showLoadSampleDataButton, setShowLoadSampleDataButton] = useState(true);
@@ -16,25 +17,59 @@ export const Services = () => {
   const [getSummary, setGetSummary] = useState(false);
   const [getQA, setGetQA] = useState(false);
   const [uploadedDocument, setUploadedDocument] = useState(false);
+  const [summary, setSummary] = useState("");
+  const [question, setQuestion] = useState("");
+  const [context, setContext] = useState("");
+  const [hasContext, setHasContext] = useState(false);
 
   const toggleButton = () => {
     setShowLoadSampleDataButton(!showLoadSampleDataButton);
 
   };
 
-  const handleGetSummary = () => {
+  const handleDefaultGetSummary = () => {
     setShowTable(false);
     setGetSummary(true);
     setGetQA(false);
+
   };
 
+  const handleDefaultQA = () => {
+    setShowTable(false);
+    setGetSummary(false);
+    setGetQA(true);
+  };
 
+  const handleGetSummary = (context) => {
+    setShowTable(false);
+    setGetSummary(true);
+    setGetQA(false);
+    if (context) {
+      querySummary(context);
+    }else{
+      alert("No Context Received");
+    }
+    
+  }
+
+  const querySummary = (context) => {
+
+  }
+
+  const queryQuestion = (question,context) => {
+
+  }
 
   const handleQA = () => {
     setShowTable(false);
     setGetSummary(false);
     setGetQA(true);
-
+    if (context) {
+       queryQuestion(question, context);
+    }else{
+      alert("No Context Received");
+    }
+   
   };
 
   const handleFileChange = async () => {
@@ -45,9 +80,23 @@ export const Services = () => {
 
   };
 
-  const handleChange = (event) => {
-    const files = Array.from(event.target.files)
+  const handleChange = (e) => {
+    const files = Array.from(e.target.files)
     console.log("files:", files)
+    if(!e.target.files[0]){
+      alert("Please select a file");
+      setHasContext(false);
+      return;
+    }
+    const reader = new FileReader() 
+
+    reader.onload = async (e) => { 
+       const text = (e.target.result) 
+       console.log(text) 
+       setContext(text);
+       setHasContext(true)
+    }; 
+    reader.readAsText(e.target.files[0]);
   };
 
   const handleClick = (event) => {
@@ -55,7 +104,7 @@ export const Services = () => {
     setUploadedDocument(true)
     setGetQA(false);
     setGetSummary(false);
-
+    
   };
 
   const fetchCSV = async () => {
@@ -64,12 +113,11 @@ export const Services = () => {
     const result = await reader.read();
     const decoder = new TextDecoder('utf-8');
     const csv = await decoder.decode(result.value);
-    console.log('csv', csv);
     parseCSV(csv);
     return csv;
   }
 
-  
+
 
   const parseCSV = (csvText) => {
     const lines = csvText.split("\n");
@@ -82,12 +130,13 @@ export const Services = () => {
       if (currentLine.length === headers.length) {
         const row = {};
         for (let j = 0; j < headers.length; j++) {
-          row[headers[j].trim()] = currentLine[j].trim();
+          row[headers[0].trim()] = currentLine[0].trim();
         }
+        // console.log('row', row['text']);
         parsedData.push(row);
+        ;
       }
     }
-
     setCsvData(parsedData);
   };
 
@@ -107,14 +156,14 @@ export const Services = () => {
               {showLoadSampleDataButton && <button className="btn-pink" onClick={handleFileChange}>Load Sample Data</button>}
             </div>
             <div>
-              {!showLoadSampleDataButton && <Button className="btn-pink" onClick={handleGetSummary}> Get Summary </Button>}
-              {!showLoadSampleDataButton && <Button className="btn-pink" onClick={handleQA}> Ask Questions </Button>}
+              {!showLoadSampleDataButton && <Button className="btn-pink" onClick={handleDefaultGetSummary}> Get Summary </Button>}
+              {!showLoadSampleDataButton && <Button className="btn-pink" onClick={handleDefaultQA}> Ask Questions </Button>}
             </div>
             <div>
               {showTable && <CSVDataTable data={csvData} />}
             </div>
             <div>
-              {getSummary && <SummaryCard title={"Summary"} content={"WHO DIS"} />}
+              {getSummary && <SummaryCard title={"Summary"} content={summary} />}
             </div>
             <div>
               {getQA && <QAContainer />}
@@ -132,7 +181,7 @@ export const Services = () => {
             </h1>
             <div>
               <Button className="btn-pink" onClick={handleClick}  > Upload Your File </Button>
-              <input type='file' accept='application/pdf' multiple onChange={handleChange} ref={hiddenFileInput} style={{ 'display': 'none' }} />
+              <input type='file' accept='.doc,.docx,.txt' onChange={handleChange} ref={hiddenFileInput} style={{ 'display': 'none' }} />
             </div>
           </div>
         </div>
@@ -140,20 +189,20 @@ export const Services = () => {
           {uploadedDocument &&
             <div>
               <div>
-                <SummaryCard title={"Context"} content={""} />
+                {hasContext && <SummaryCard title={"Context"} content={context} />}
               </div>
               <div>
-              <div>
-              {uploadedDocument && <Button className="btn-pink" onClick={handleGetSummary}> Get Summary </Button>}
-              {uploadedDocument && <Button className="btn-pink" onClick={handleQA}> Ask Questions </Button>}
-            </div>
+                <div>
+                  {uploadedDocument && <Button className="btn-pink" onClick={handleGetSummary}> Get Summary </Button>}
+                  {uploadedDocument && <Button className="btn-pink" onClick={handleQA}> Ask Questions </Button>}
+                </div>
               </div>
               <div>
-              {getSummary && <SummaryCard title={"Summary"} content={"WHO DIS"} />}
-            </div>
-            <div>
-              {getQA && <QAContainer />}
-            </div>
+                {getSummary && context && <SummaryCard title={"Summary"} content={summary} />}
+              </div>
+              <div>
+                {getQA &&  context && <QAContainer />}
+              </div>
             </div>
           }
         </div>

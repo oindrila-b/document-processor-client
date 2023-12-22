@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import CardContent from '@mui/material/CardContent';
 import { Grid } from '@mui/material';
 
-export const SummaryCard = ({context, title,content}) => {
+export const SummaryCard = ({ title,content}) => {
     return (
         <div>
             <Grid

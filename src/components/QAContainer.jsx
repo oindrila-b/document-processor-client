@@ -24,11 +24,11 @@ export const QAContainer = () => {
     return (
         <div>
             <div className="qa-container">
-                <h2 style={{ color: "white", margin: "3em" }}>
+                <h2 style={{ color: "white", margin: "5em" }}>
                     Ask a Question about  the sample document to Documento
                 </h2>
                 <div>
-                    <TextField id="outlined-basic" required label="Question" variant="filled" color="secondary" focused multiline style={{ backgroundColor: "white", width: "50vh", height: "5vh", borderRadius: "50px" }} onChange={handleOnInputChange} value={question}/>
+                    <TextField id="outlined-basic" required label="Question" variant="filled" color="secondary" focused multiline style={{ backgroundColor: "white", width: "50vh", height: "6vh", borderRadius: "50px" }} onChange={handleOnInputChange} value={question}/>
                 </div>
                 <div>
                     <Button className="btn-pink" onClick={handleAskQuestion}>Ask Documento</Button>
