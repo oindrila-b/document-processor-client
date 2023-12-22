@@ -6,10 +6,15 @@ import Papa from 'papaparse';
 import { Button } from '@chakra-ui/react';
 import { SummaryCard } from './SummaryCard.jsx';
 import { QAContainer } from './QAContainer.jsx';
+import axios from 'axios';
 
 export const Services = () => {
 
+  
 
+
+  const SUMMARY_URL = 'http://localhost:5000/getSummary';
+  
   const hiddenFileInput = useRef(null);
   const [csvData, setCsvData] = useState([]);
   const [showLoadSampleDataButton, setShowLoadSampleDataButton] = useState(true);
@@ -18,27 +23,31 @@ export const Services = () => {
   const [getQA, setGetQA] = useState(false);
   const [uploadedDocument, setUploadedDocument] = useState(false);
   const [summary, setSummary] = useState("");
-  const [question, setQuestion] = useState("");
   const [context, setContext] = useState("");
   const [hasContext, setHasContext] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const params = {
+    query_context: context
+  }
 
   const toggleButton = () => {
     setShowLoadSampleDataButton(!showLoadSampleDataButton);
 
   };
 
-  const handleDefaultGetSummary = () => {
-    setShowTable(false);
-    setGetSummary(true);
-    setGetQA(false);
+  // const handleDefaultGetSummary = () => {
+  //   setShowTable(false);
+  //   setGetSummary(true);
+  //   setGetQA(false);
 
-  };
+  // };
 
-  const handleDefaultQA = () => {
-    setShowTable(false);
-    setGetSummary(false);
-    setGetQA(true);
-  };
+  // const handleDefaultQA = () => {
+  //   setShowTable(false);
+  //   setGetSummary(false);
+  //   setGetQA(true);
+  // };
 
   const handleGetSummary = (context) => {
     setShowTable(false);
@@ -52,25 +61,24 @@ export const Services = () => {
     
   }
 
-  const querySummary = (context) => {
-
-  }
-
-  const queryQuestion = (question,context) => {
-
-  }
-
   const handleQA = () => {
     setShowTable(false);
     setGetSummary(false);
-    setGetQA(true);
-    if (context) {
-       queryQuestion(question, context);
-    }else{
-      alert("No Context Received");
-    }
-   
+    setGetQA(true);   
+    setHasContext(true);
   };
+
+  const querySummary = () => {
+    axios.get(SUMMARY_URL, {params}).then((response) => {
+      console.log(response.data);
+       setSummary(response.data);
+       setIsLoading(false);
+       setHasContext(true)
+    }).catch((error) => {
+      alert(error.message);
+  });
+
+  }
 
   const handleFileChange = async () => {
     const data = Papa.parse(await fetchCSV());
@@ -104,10 +112,11 @@ export const Services = () => {
     setUploadedDocument(true)
     setGetQA(false);
     setGetSummary(false);
-    
+    setHasContext(true);
   };
 
   const fetchCSV = async () => {
+  
     const response = await fetch('data/text_segments.csv');
     const reader = response.body.getReader();
     const result = await reader.read();
@@ -120,6 +129,7 @@ export const Services = () => {
 
 
   const parseCSV = (csvText) => {
+    let extractedText=""
     const lines = csvText.split("\n");
     const headers = lines[0].split(",");
     const parsedData = [];
@@ -134,8 +144,10 @@ export const Services = () => {
         }
         // console.log('row', row['text']);
         parsedData.push(row);
-        ;
+        extractedText += row['text'];
+        console.log('extracted', extractedText);
       }
+      setContext(extractedText); 
     }
     setCsvData(parsedData);
   };
@@ -156,17 +168,17 @@ export const Services = () => {
               {showLoadSampleDataButton && <button className="btn-pink" onClick={handleFileChange}>Load Sample Data</button>}
             </div>
             <div>
-              {!showLoadSampleDataButton && <Button className="btn-pink" onClick={handleDefaultGetSummary}> Get Summary </Button>}
-              {!showLoadSampleDataButton && <Button className="btn-pink" onClick={handleDefaultQA}> Ask Questions </Button>}
+              {!showLoadSampleDataButton && <Button className="btn-pink" onClick={handleGetSummary}> Get Summary </Button>}
+              {!showLoadSampleDataButton && <Button className="btn-pink" onClick={handleQA}> Ask Questions </Button>}
             </div>
             <div>
               {showTable && <CSVDataTable data={csvData} />}
             </div>
             <div>
-              {getSummary && <SummaryCard title={"Summary"} content={summary} />}
+              {getSummary && <SummaryCard title={"Summary"} content={isLoading? "Loading Summary...." : summary} />}
             </div>
             <div>
-              {getQA && <QAContainer />}
+              {getQA && hasContext &&  <QAContainer context={context} />}
             </div>
 
             <div style={{ margin: "10em" }}>
@@ -179,6 +191,7 @@ export const Services = () => {
             <h1 className='subtitle'>
               Test With Your own Documents
             </h1>
+            <p style={{color:"white"}}>*Currently We Are Only accepting .doc/.docx/.txt files</p>
             <div>
               <Button className="btn-pink" onClick={handleClick}  > Upload Your File </Button>
               <input type='file' accept='.doc,.docx,.txt' onChange={handleChange} ref={hiddenFileInput} style={{ 'display': 'none' }} />
@@ -198,10 +211,10 @@ export const Services = () => {
                 </div>
               </div>
               <div>
-                {getSummary && context && <SummaryCard title={"Summary"} content={summary} />}
+                {getSummary && context && <SummaryCard title={"Summary"} content={isLoading? "Loading Summary...." : summary} />}
               </div>
               <div>
-                {getQA &&  context && <QAContainer />}
+                {getQA &&  hasContext && <QAContainer context={context} />}
               </div>
             </div>
           }
