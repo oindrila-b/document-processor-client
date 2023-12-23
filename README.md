@@ -6,7 +6,8 @@ Documento is a Fullstack application built using React JS and Python.
 This repository contains the the UI, i.e, the Client Side of the application. Documento allows the user to make a summary out of their document or get answer to questions regarding their document. Documento uses two NLP models to process the Document.
     
 
-## 
+## Tips:
+ Make sure you have the backend running before you start the application. This application can be executed using the command `npm start`
 
 ### Repositories :
 
